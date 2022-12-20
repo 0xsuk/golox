@@ -22,6 +22,6 @@ func ErrorAtToken(tok token.Token, message string) {
 }
 
 func report(line int, where string, message string) {
-	fmt.Fprintf(os.Stderr, "[line %v] Error '%s': %s", line, where, message)
+	fmt.Fprintf(os.Stderr, "[line %v] Error %s: %s\n", line, where, message)
 	HadError = true
 }
