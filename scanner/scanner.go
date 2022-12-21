@@ -208,7 +208,7 @@ func (sc *Scanner) scanIdentifier() {
 
 //advance advances current, return previous char
 func (sc *Scanner) advance() byte {
-	sc.advance()
+	sc.current++
 	return sc.source[sc.current-1]
 }
 

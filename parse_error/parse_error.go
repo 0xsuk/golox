@@ -10,11 +10,14 @@ import (
 var HadError = false
 
 func Format(line int, where string, message string) string {
-	return fmt.Sprintf("[line %v] Error %s: %s\n", line, where, message)
+	return fmt.Sprintf("[line %v] Error%s: %s", line, where, message)
 }
 
 func FormatByToken(tok token.Token, message string) string {
-	return Format(tok.Line, " at"+tok.Lexeme, message)
+	if tok.Type == token.EOF {
+		return Format(tok.Line, " at end", message)
+	}
+	return Format(tok.Line, " at '"+tok.Lexeme+"'", message)
 }
 
 func ReportAtLine(line int, message string) {
