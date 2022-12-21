@@ -1,7 +1,7 @@
 package env
 
 import (
-	"github.com/0xsuk/golox/runtimeerror"
+	"github.com/0xsuk/golox/runtime_error"
 	"github.com/0xsuk/golox/token"
 )
 
@@ -50,7 +50,7 @@ func (e *Environment) Get(name token.Token, index int) interface{} {
 	v, ok := e.values[name.Lexeme]
 	if ok {
 		if v == needsInitialization {
-			runtimeerror.ErrorAtLine(name.Line, "Uninitialized variable access: "+name.Lexeme)
+			runtime_error.ReportAtLine(name.Line, "Uninitialized variable access: "+name.Lexeme)
 			return nil
 		}
 		return v
@@ -59,7 +59,7 @@ func (e *Environment) Get(name token.Token, index int) interface{} {
 		return e.enclosing.Get(name, index)
 	}
 
-	runtimeerror.ErrorAtLine(name.Line, "Undefined variable '"+name.Lexeme+"'")
+	runtime_error.ReportAtLine(name.Line, "Undefined variable '"+name.Lexeme+"'")
 	return nil
 }
 
@@ -82,7 +82,7 @@ func (e *Environment) Assign(name token.Token, index int, value interface{}) {
 		return
 	}
 
-	runtimeerror.ErrorAtLine(name.Line, "Undefined variable '"+name.Lexeme+"'")
+	runtime_error.ReportAtLine(name.Line, "Undefined variable '"+name.Lexeme+"'")
 }
 
 func (e *Environment) AssignAt(distance int, index int, name token.Token, value interface{}) {

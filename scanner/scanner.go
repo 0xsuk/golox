@@ -3,7 +3,7 @@ package scanner
 import (
 	"strconv"
 
-	"github.com/0xsuk/golox/parseerror"
+	"github.com/0xsuk/golox/parse_error"
 	"github.com/0xsuk/golox/token"
 )
 
@@ -145,7 +145,7 @@ func (sc *Scanner) scanToken() {
 		} else if sc.isAlpha(prev) {
 			sc.scanIdentifier()
 		} else {
-			parseerror.ErrorAtLine(sc.line, "Unexpected character"+string(prev))
+			parse_error.ReportAtLine(sc.line, "Unexpected character"+string(prev))
 		}
 	}
 }
@@ -159,7 +159,7 @@ func (sc *Scanner) scanString() {
 	}
 
 	if sc.isAtEnd() {
-		parseerror.ErrorAtLine(sc.line, "Unterminated string.")
+		parse_error.ReportAtLine(sc.line, "Unterminated string.")
 		return
 	}
 
@@ -185,7 +185,7 @@ func (sc *Scanner) scanNumber() {
 	number, err := strconv.ParseFloat(sc.source[sc.start:sc.current], 64)
 
 	if err != nil {
-		parseerror.ErrorAtLine(sc.line, "Invalid number '"+sc.source[sc.start:sc.current]+"'")
+		parse_error.ReportAtLine(sc.line, "Invalid number '"+sc.source[sc.start:sc.current]+"'")
 		return
 	}
 
